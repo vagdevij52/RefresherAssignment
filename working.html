@@ -1,0 +1,78 @@
+Working Covid metrics
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#submitStateName").click(function () {
+                $("#result").html("");
+                var stName = $('#stateName').val();
+                var urlWithVar = 'https://api.covidtracking.com/v1/states/' + stName + '/current.json';
+                $.ajax({
+                    url: urlWithVar,
+                    type: "GET",
+                    crossDomain: true,
+                    dataType: "json",
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $("#wrongState").html("");
+                        $('#wrongState').append("<b>Please enter correct state!!<b>");
+                    },
+                    success: function (parsed_json){
+                        console.log(parsed_json.positive);
+                        $('#result').append("<b>Date of Report: </b>"+parsed_json.date);
+                        $('#result').append("<br/>");$('#result').append("<br/>");
+                        $('#result').append("<b>Postive Cases Currently: </b>"+parsed_json.positive);
+                        $('#result').append("<br/>");$('#result').append("<br/>");
+                        $('#result').append("<b>Hospitalized currently: </b>"+parsed_json.hospitalizedCurrently);
+                        $('#result').append("<br/>");$('#result').append("<br/>");
+                        $('#result').append("<b>No. of deaths: </b>"+parsed_json.death);
+                        $('#result').append("<br/>");$('#result').append("<br/>");
+                        $('#result').append("<b>Total test results: </b>"+parsed_json.totalTestResults);
+                        $('#result').append("<br/>");$('#result').append("<br/>");
+                        
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<!--'https://www.worldometers.info/coronavirus/usa/' + stName + '/'-->
+
+<body>
+    <br/><br/><br/>
+    <div class="container">
+        <div class="h-100 row align-items-center">
+            <h3>Covid Metrics</h3>
+        </div>
+    </div>
+    <div class="container">
+    <div class="h-100 row align-items-center">
+    <label class="" for="stateName">Enter State Name: </label><br/>
+    <input type="text" required class="form-control" id="stateName" name="stateName" placeholder="Enter State name"></p>
+    <button type="submit" class="btn btn-success" id="submitStateName">Submit</button><br/><br/><br/>
+    </div>
+    </div>
+    <div class="container">
+        <div class="h-100 row align-items-center">
+        <div id="result"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="h-100 row align-items-center">
+            <div id="wrongState" style="color:red;">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="index.js"></script>
+</head>
+<body>
+    <script>
+        function foo(){
+        var $covid_metrics_result = $('#covid_metrics_result');
+        $.ajax({
+        url:("https://covidtracking.com/api/states"),
+        //crossDomain: true,
+        dataType:'json',
+        type: 'post',
+        headers: {
+        'Access-Control-Allow-Origin': 'https://covidtracking.com/api/states'
+        },
+        //data: yourForm.serialize(),
+        success:function(response){
+             // ** If yout API returns something, you're going to proccess the data here.
+             console.log(response);
+             //$('#covid_metrics_result').append(JSON.stringify(response))
+             $.each(covid_metrics_result, function(i, covid_metrics_result){
+                 $covid_metrics_result.append('<li>Positive Cases: '+covid_metrics_result.positive);
+             })
+        }
+    })
+    }
+    </script>
+    <div class="container">
+        <!-- <div class="form-group">
+        <form>
+        <br/><label for="stateName">Enter a state name</label>
+        <input type="text" max=2 required id="stateName" class="form-control" placeholder="State Name"><br/>
+        <!--<input type="submit" id="submitBtn" class="btn btn-success" value="Submit"><br/><br/><br/>-->
+        <!-- <button type ="submit" id="submitBtn">Submit</button>
+        </form>
+        </div> --> 
+
+        <button type ="submit" id="submitBtn">Submit</button>
+        <div id="covid_metrics_result">
+
+        </div>
+    </div> 
+</body>
+</html>
